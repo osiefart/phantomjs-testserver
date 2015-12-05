@@ -1,0 +1,20 @@
+---
+
+# install packages
+- name: Install list of packages
+  apt: pkg={{item}} state=installed
+  with_items:
+    - wget
+
+# install casperjs
+- command: wget https://github.com/n1k0/casperjs/zipball/1.1-beta3
+- unarchive: src=1.1-beta3 dest=/tmp copy=no
+- command: rm -f /usr/local/bin/casperjs
+- command: rm -rf /usr/local/share/casperjs
+- command: mv /tmp/n1k0-casperjs-4f105a9 /usr/local/share/casperjs
+- command: chown -R root /usr/local/share/casperjs
+- command: chmod -R 0755 /usr/local/share/casperjs
+- copy: src=bootstrap.js dest=/usr/local/share/casperjs/bin/bootstrap.js owner=root group=root mode=0755 force=yes
+- command: ln -s /usr/local/share/casperjs/bin/casperjs /usr/local/bin/casperjs
+
+
